@@ -12,7 +12,14 @@
     </style>
 
     <style name="splashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:colorBackground">@color/colorPrimary</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="dialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/textColor</item>
+
     </style>
 </resources>

@@ -8,24 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageButton
-        android:id="@+id/startrecbutt"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:alpha="1"
-        android:background="@drawable/round_btn"
-        android:backgroundTint="@color/colorPrimary"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_openmic" />
-
     <TextView
         android:id="@+id/headText"
         android:layout_width="wrap_content"
@@ -55,7 +37,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/raleway"
-        android:text="Tap the mic to start recording."
+        android:text="@string/startRecord"
         android:textAlignment="center"
         android:textColor="@color/textColor"
         android:textSize="18sp"
@@ -65,7 +47,44 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6" />
 
-    <Button
+    <ImageButton
+        android:id="@+id/startrecbutt"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="1"
+        android:background="@drawable/round_btn"
+        android:backgroundTint="@color/colorPrimary"
+        android:scaleType="centerInside"
+        android:onClick="startChrono"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_openmic" />
+
+    <Chronometer
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/raleway"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        android:textSize="42sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/stopRecButt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startrecbutt" />
+
+    <ImageButton
         android:id="@+id/stopRecButt"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -74,15 +93,22 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_btn"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:fontFamily="@font/raleway"
-        android:text="Stop"
+        android:padding="24dp"
+        android:scaleType="fitCenter"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/textColor"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:visibility="invisible"
+        android:onClick="stopChrono"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startrecbutt" />
+        app:layout_constraintTop_toBottomOf="@+id/startrecbutt"
+        app:layout_constraintVertical_bias="0.724"
+        app:srcCompat="@drawable/ic_abortico" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

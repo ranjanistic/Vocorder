@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Vocorder</string>
+    <string name="whileRecord">Surround sound is being listened by your device.</string>
+    <string name="startRecord">Tap the mic to start recording.</string>
+    <string name="initialTime">00:00:00</string>
+    <string name="denytext">I can\'t permit</string>
+    <string name="accepText">I\'ll permit</string>
 </resources>
