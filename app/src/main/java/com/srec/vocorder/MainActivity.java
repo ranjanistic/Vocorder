@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -30,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private MediaRecorder mdr;
     private static final int REQUEST_CODE_PERMISSIONS = 0;
     private String outFile;
-    Animation animView, animHide;
+
+    Animation animView, animHide, animRot, animARot, textFade;
     Boolean isOpen = false, stopFlag = true;
     private String[] permissions =  {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     @Override
@@ -41,23 +43,31 @@ public class MainActivity extends AppCompatActivity {
         final Chronometer timeView = findViewById(R.id.timer);
         final ImageButton startrec = findViewById(R.id.startrecbutt);
         final ImageButton stoprec = findViewById(R.id.stopRecButt);
+        final ImageView animImg = findViewById(R.id.animimage);
         startrec.setEnabled(true);
         outFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/vocorderAudioFile.3gp";
         animView = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         animHide = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        animRot = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clk_inf);
+        animARot = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_aclk_inf);
+        textFade = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadetexton);
         startrec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(permissionsAccepted(permissions)){
+                    subtext.startAnimation(textFade);
                     subtext.setText(getResources().getText(R.string.whileRecord));
                     timeView.startAnimation(animView);
                     stopFlag = false;
                     if(isOpen){
-                        stoprec.startAnimation(animHide);
+                     //   stoprec.startAnimation(animHide);
+                        stoprec.startAnimation(animARot);
                         stoprec.setClickable(false);
                         isOpen = false;
                     } else {
-                        stoprec.startAnimation(animView);
+                       // stoprec.startAnimation(animView);
+                        stoprec.startAnimation(animRot);
+             //           stoprec.startAnimation(animRot);
                         stoprec.setClickable(true);
                         isOpen = true;
                     }
@@ -68,11 +78,13 @@ public class MainActivity extends AppCompatActivity {
                             .show();
                     startVoRec();
                     startrec.setEnabled(false);
+
+
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.dialogTheme);
                     builder.setTitle("Permissions Required")
                             .setIcon(R.drawable.ic_openmic)
-                            .setMessage("\nAudio permission is required to access your device mic.\n\nStorage permission is required to save recordings on your device")
+                            .setMessage("\nAudio permission is required to access your device mic.\n\nStorage permission is required to save recordings on your device.")
                             .setNegativeButton(R.string.denytext, null)
                             .setPositiveButton(R.string.accepText, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
@@ -88,9 +100,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 stopVoRec();
+                subtext.startAnimation(textFade);
                 subtext.setText(getResources().getText(R.string.startRecord));
                 startrec.setEnabled(true);
-                stoprec.startAnimation(animHide);
+                //stoprec.startAnimation(animHide);
+                stoprec.startAnimation(animARot);
                 timeView.startAnimation(animHide);
                 stoprec.setClickable(false);
                 Snackbar.make(view, Html.fromHtml("<font color=\"#00aaaa\">Recording stopped, saved as 'vocorderAudioFile.3gp'.</font>"), 5000)
