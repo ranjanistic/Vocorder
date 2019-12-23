@@ -20,32 +20,46 @@ import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.android.material.snackbar.Snackbar;
+import java.util.Calendar;
+
 
 import java.io.IOException;
-
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
     private MediaRecorder mdr;
     private static final int REQUEST_CODE_PERMISSIONS = 0;
     private String outFile;
+    long timeWhenStopped = 0;
+    long current;
 
     Animation animView, animHide, animRot, animARot, textFade;
     Boolean isOpen = false, stopFlag = true;
     private String[] permissions =  {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private Chronometer chronometer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final TextView subtext = findViewById(R.id.subText);
-        final Chronometer timeView = findViewById(R.id.timer);
+        final Chronometer timeView = findViewById(R.id.chronometerTimer);
         final ImageButton startrec = findViewById(R.id.startrecbutt);
         final ImageButton stoprec = findViewById(R.id.stopRecButt);
         final ImageView animImg = findViewById(R.id.animimage);
+        current=System.currentTimeMillis();
         startrec.setEnabled(true);
-        outFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/vocorderAudioFile.3gp";
+        chronometer = (Chronometer) findViewById(R.id.chronometerTimer);
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd_HHmmss", java.util.Locale.getDefault());
+
+        //change "yyyyMMdd_HHmmss as per requirement
+
+        String currentDateandTime = sdf.format(new java.util.Date());
+        String fileName = currentDateandTime;
+        String ext= ".mp3";
+        String name= fileName.concat(ext);
+        outFile = Environment.getExternalStorageDirectory().getAbsolutePath()+name;
         animView = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         animHide = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
         animRot = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clk_inf);
@@ -107,7 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 stoprec.startAnimation(animARot);
                 timeView.startAnimation(animHide);
                 stoprec.setClickable(false);
-                Snackbar.make(view, Html.fromHtml("<font color=\"#00aaaa\">Recording stopped, saved as 'vocorderAudioFile.3gp'.</font>"), 5000)
+                timeWhenStopped = chronometer.getBase() - SystemClock.elapsedRealtime(); chronometer.stop();
+
+                Snackbar.make(view, Html.fromHtml("<font color=\"#00aaaa\">Recording stopped, saved as 'AudioFile.mp3'.</font>"), 5000)
                         .setAction("OKAY", null)
                         .setActionTextColor(Color.YELLOW)
                         .show();
@@ -129,10 +145,14 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "startVoRec: " + e.toString());
         }
         mdr.start();
+        chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+        chronometer.setBase(SystemClock.elapsedRealtime()); timeWhenStopped = 0;
+
+        chronometer.start();
 
     }
 
-    private void stopVoRec(){
+    private void stopVoRec(){chronometer.stop();
         if(mdr != null){
             mdr.stop();
             mdr.release();
@@ -147,12 +167,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return true;
-    }
-    public void startChrono(View view) {
-        ((Chronometer) findViewById(R.id.timer)).start();
-    }
-
-    public void stopChrono(View view) {
-        ((Chronometer) findViewById(R.id.timer)).stop();
     }
 }

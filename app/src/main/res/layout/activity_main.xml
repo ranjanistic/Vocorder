@@ -68,7 +68,7 @@
         app:srcCompat="@drawable/ic_openmic" />
 
     <Chronometer
-        android:id="@+id/timer"
+        android:id="@+id/chronometerTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -79,7 +79,7 @@
         android:textStyle="bold"
         android:textColor="@color/textColor"
         android:textSize="42sp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/stopRecButt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
